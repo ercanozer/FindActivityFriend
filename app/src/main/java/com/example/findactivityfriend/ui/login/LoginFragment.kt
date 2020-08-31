@@ -110,7 +110,7 @@ class LoginFragment : Fragment() {
         }
 
         createAccountButton.setOnClickListener{
-            navGraph.navigate(R.id.managerActivity)
+            navGraph.navigate(R.id.action_loginFragment_to_createAccountScreen)
         }
     }
 

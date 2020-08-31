@@ -7,6 +7,7 @@ import android.util.Patterns
 import com.example.findactivityfriend.data.LoginRepository
 import com.example.findactivityfriend.data.Result
 
+
 import com.example.findactivityfriend.R
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {

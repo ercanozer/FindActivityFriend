@@ -15,8 +15,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.navigation.NavGraph
+import androidx.navigation.Navigation
 
 import com.example.findactivityfriend.R
+import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
 
@@ -35,10 +38,14 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
+        val navGraph = Navigation.findNavController(view);
+
+
         val usernameEditText = view.findViewById<EditText>(R.id.username)
         val passwordEditText = view.findViewById<EditText>(R.id.password)
         val loginButton = view.findViewById<Button>(R.id.login)
         val loadingProgressBar = view.findViewById<ProgressBar>(R.id.loading)
+        val createAccountButton = view.findViewById<Button>(R.id.createAccountBtn);
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
@@ -100,6 +107,10 @@ class LoginFragment : Fragment() {
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString()
             )
+        }
+
+        createAccountButton.setOnClickListener{
+            navGraph.navigate(R.id.managerActivity)
         }
     }
 

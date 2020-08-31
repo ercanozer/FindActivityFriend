@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:tools="http://schemas.android.com/tools"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/home_fragment">
 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigation.xml"
-    app:startDestination="@id/loginFragment">
+
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.findactivityfriend.ui.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        android:id="@+id/home_fragment"
+        android:name="com.example.findactivityfriend.ui.homePage.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_fragment_to_account_fragment"
+            app:destination="@id/account_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/account_fragment"
+        android:name="com.example.findactivityfriend.ui.accountPage.accountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_account_fragment_to_notification_fragment"
+            app:destination="@id/notification_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notification_fragment"
+        android:name="com.example.findactivityfriend.ui.notificationsPage.notificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 </navigation>

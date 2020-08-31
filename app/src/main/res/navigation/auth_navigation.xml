@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:tools="http://schemas.android.com/tools"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/auth_navigation.xml"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.findactivityfriend.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_createAccountScreen"
+            app:destination="@id/createAccountScreen"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_loginFragment_to_managerActivity"
+            app:destination="@id/managerActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountScreen"
+        android:name="com.example.findactivityfriend.ui.createAccountScreen"
+        android:label="fragment_create_account_screen"
+        tools:layout="@layout/fragment_create_account_screen" >
+        <action
+            android:id="@+id/action_createAccountScreen_to_managerActivity"
+            app:destination="@id/managerActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/managerActivity"
+        android:name="com.example.findactivityfriend.ui.mainUiActions.ManagerActivity"
+        android:label="activity_manager"
+        tools:layout="@layout/activity_manager" />
+</navigation>

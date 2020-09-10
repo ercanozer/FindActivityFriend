@@ -1,6 +1,6 @@
-package com.example.findactivityfriend.data
+package com.example.findactivityfriend.data.login
 
-import com.example.findactivityfriend.data.model.LoggedInUser
+import com.example.findactivityfriend.data.login.model.LoggedInUser
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -27,7 +27,7 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    suspend fun login(username: String, password: String): Result<LoggedInUser> {
         // handle login
         val result = dataSource.login(username, password)
 

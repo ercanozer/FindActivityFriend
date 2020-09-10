@@ -24,10 +24,18 @@
         <action
             android:id="@+id/action_account_fragment_to_notification_fragment"
             app:destination="@id/notification_fragment" />
+        <action
+            android:id="@+id/action_account_fragment_to_createAccountDetailFragment2"
+            app:destination="@id/createAccountDetailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/notification_fragment"
         android:name="com.example.findactivityfriend.ui.notificationsPage.notificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/createAccountDetailFragment2"
+        android:name="com.example.findactivityfriend.ui.editAccount.createAccountDetailFragment"
+        android:label="fragment_create_account_detail"
+        tools:layout="@layout/fragment_create_account_detail" />
 </navigation>

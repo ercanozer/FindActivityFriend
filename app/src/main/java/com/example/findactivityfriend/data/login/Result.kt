@@ -1,4 +1,4 @@
-package com.example.findactivityfriend.data
+package com.example.findactivityfriend.data.login
 
 /**
  * A generic class that holds a value with its loading status.

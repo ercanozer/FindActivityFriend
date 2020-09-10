@@ -22,6 +22,8 @@ class createAccountScreen : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_account_screen, container, false)
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +35,5 @@ class createAccountScreen : Fragment() {
             navController.navigate(R.id.action_createAccountScreen_to_createAccountDetailFragment)
         }
     }
-
 
 }

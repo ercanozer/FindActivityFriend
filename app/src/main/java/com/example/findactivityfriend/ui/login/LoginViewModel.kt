@@ -4,11 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.example.findactivityfriend.data.LoginRepository
-import com.example.findactivityfriend.data.Result
+import androidx.lifecycle.viewModelScope
+import com.example.findactivityfriend.data.login.LoginRepository
+import com.example.findactivityfriend.data.login.Result
 
 
 import com.example.findactivityfriend.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -19,14 +23,17 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
+
+        viewModelScope.launch(Dispatchers.IO) {
+
         val result = loginRepository.login(username, password)
 
         if (result is Result.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+            _loginResult.postValue(
+                LoginResult(success = LoggedInUserView(displayName = result.data.displayName)))
         } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+            _loginResult.postValue(LoginResult(error = R.string.login_failed))
+        }
         }
     }
 

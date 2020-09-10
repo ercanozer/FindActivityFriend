@@ -2,8 +2,8 @@ package com.example.findactivityfriend.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.findactivityfriend.data.LoginDataSource
-import com.example.findactivityfriend.data.LoginRepository
+import com.example.findactivityfriend.data.login.LoginDataSource
+import com.example.findactivityfriend.data.login.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -22,4 +22,5 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+
 }

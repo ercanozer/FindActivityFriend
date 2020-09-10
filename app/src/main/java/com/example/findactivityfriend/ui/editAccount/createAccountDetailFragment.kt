@@ -1,4 +1,4 @@
-package com.example.findactivityfriend.ui.createAccount
+package com.example.findactivityfriend.ui.editAccount
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -50,7 +50,8 @@ class createAccountDetailFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            createAccountDetailFragment().apply {
+            createAccountDetailFragment()
+                .apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

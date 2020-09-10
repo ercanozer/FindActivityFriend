@@ -34,7 +34,7 @@
         tools:layout="@layout/activity_manager" />
     <fragment
         android:id="@+id/createAccountDetailFragment"
-        android:name="com.example.findactivityfriend.ui.createAccount.createAccountDetailFragment"
+        android:name="com.example.findactivityfriend.ui.editAccount.createAccountDetailFragment"
         android:label="fragment_create_account_detail"
         tools:layout="@layout/fragment_create_account_detail" >
         <action

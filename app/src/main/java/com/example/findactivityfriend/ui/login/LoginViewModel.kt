@@ -10,6 +10,8 @@ import com.example.findactivityfriend.data.login.Result
 
 
 import com.example.findactivityfriend.R
+import com.example.findactivityfriend.data.login.model.LoggedInUser
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -22,18 +24,23 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
 
+    fun login(username: String = "", password: String = "" , access_token : String = "") {
         viewModelScope.launch(Dispatchers.IO) {
+            val result  :Result<LoggedInUser>
+            if (access_token==""){
+                 result = loginRepository.login(username, password)
+            }else{
+                result = loginRepository.login(accessToken= access_token)
 
-        val result = loginRepository.login(username, password)
+            }
+            if (result is Result.Success) {
+                _loginResult.postValue(
+                    LoginResult(success =result.data))
+            } else {
+                _loginResult.postValue(LoginResult(error = R.string.login_failed))
+            }
 
-        if (result is Result.Success) {
-            _loginResult.postValue(
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName)))
-        } else {
-            _loginResult.postValue(LoginResult(error = R.string.login_failed))
-        }
         }
     }
 
@@ -60,4 +67,8 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
+
+
+
+
 }

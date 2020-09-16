@@ -27,14 +27,16 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    suspend fun login(username: String, password: String): Result<LoggedInUser> {
+    suspend fun login(username: String="", password: String ="",accessToken : String =""): Result<LoggedInUser> {
         // handle login
-        val result = dataSource.login(username, password)
-
+        val result : Result<LoggedInUser> = if (accessToken==""){
+            dataSource.login(username, password)
+        }else{
+            dataSource.loginWithFb(accessToken)
+        }
         if (result is Result.Success) {
             setLoggedInUser(result.data)
         }
-
         return result
     }
 

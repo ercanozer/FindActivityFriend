@@ -13,7 +13,7 @@ class ManagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager)
 
-        val bottomNavigationView : BottomNavigationView = findViewById<BottomNavigationView>(R.id.bttm_nav)
+        val bottomNavigationView : BottomNavigationView = findViewById(R.id.bttm_nav)
 
         val NavHost :NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.managerFragment) as NavHostFragment;

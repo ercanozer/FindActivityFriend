@@ -1,5 +1,6 @@
 package com.example.findactivityfriend.ui.login
 
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.annotation.StringRes
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,21 +17,30 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.navigation.NavGraph
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 
 import com.example.findactivityfriend.R
-import kotlinx.android.synthetic.main.fragment_login.view.*
+import com.example.findactivityfriend.data.login.model.LoggedInUser
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 
 class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
-
+    private val callbackManager : CallbackManager = CallbackManager.Factory.create();
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -38,7 +49,7 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
-        val navGraph = Navigation.findNavController(view);
+        val navController = Navigation.findNavController(view);
 
 
         val usernameEditText = view.findViewById<EditText>(R.id.username)
@@ -46,6 +57,9 @@ class LoginFragment : Fragment() {
         val loginButton = view.findViewById<Button>(R.id.login)
         val loadingProgressBar = view.findViewById<ProgressBar>(R.id.loading)
         val createAccountButton = view.findViewById<Button>(R.id.createAccountBtn);
+        val facebookLoginButton = view.findViewById<LoginButton>(R.id.singInWithFacebook)
+        facebookLoginButton.setReadPermissions("email")
+        facebookLoginButton.fragment = this
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
@@ -61,16 +75,20 @@ class LoginFragment : Fragment() {
                 }
             })
 
-        loginViewModel.loginResult.observe(this,
+        loginViewModel.loginResult.observe(viewLifecycleOwner,
             Observer { loginResult ->
+
                 loginResult ?: return@Observer
+
                 loadingProgressBar.visibility = View.GONE
                 loginResult.error?.let {
                     showLoginFailed(it)
                 }
                 loginResult.success?.let {
-                    updateUiWithUser(it)
+                    updateUiWithUser(it,navController)
                 }
+
+
             })
 
         val afterTextChangedListener = object : TextWatcher {
@@ -109,20 +127,53 @@ class LoginFragment : Fragment() {
             )
         }
 
+        facebookLoginButton.setOnClickListener{
+            loginWithFacebook()
+        }
+
         createAccountButton.setOnClickListener{
-            navGraph.navigate(R.id.action_loginFragment_to_createAccountScreen)
+            navController.navigate(R.id.action_loginFragment_to_createAccountScreen)
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome) + model.displayName
-        // TODO : initiate successful logged in experience
+    private fun updateUiWithUser(model: LoggedInUser, navController: NavController) {
+
+
         val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        Toast.makeText(appContext,"${model.userId}", Toast.LENGTH_LONG).show()
+        navController.navigate(R.id.action_loginFragment_to_managerActivity)
+
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
+    private fun showLoginFailed(@StringRes errorString: Int ) {
+
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
+    private fun loginWithFacebook(){
+
+        LoginManager.getInstance().registerCallback(callbackManager,object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult){
+                loginViewModel.login(access_token = result.accessToken.token.toString())
+                Log.d("facebookid", result.accessToken.token.toString())
+
+            }
+
+            override fun onCancel() {
+
+            }
+
+            override fun onError(error: FacebookException?) {
+
+            }
+        })
+    }
+
+     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+         callbackManager.onActivityResult(requestCode,resultCode, data);
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
 }

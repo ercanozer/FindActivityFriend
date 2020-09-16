@@ -26,7 +26,7 @@
             app:destination="@id/notification_fragment" />
         <action
             android:id="@+id/action_account_fragment_to_createAccountDetailFragment2"
-            app:destination="@id/createAccountDetailFragment2" />
+            app:destination="@id/editAccountDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/notification_fragment"
@@ -34,8 +34,8 @@
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
     <fragment
-        android:id="@+id/createAccountDetailFragment2"
+        android:id="@+id/editAccountDetailFragment"
         android:name="com.example.findactivityfriend.ui.editAccount.createAccountDetailFragment"
-        android:label="fragment_create_account_detail"
-        tools:layout="@layout/fragment_create_account_detail" />
+        android:label="fragment_edit_account_detail"
+        tools:layout="@layout/fragment_edit_account_detail" />
 </navigation>
